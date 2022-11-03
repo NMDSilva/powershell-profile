@@ -109,7 +109,7 @@ function Edit-Profile
     }
     else
     {
-        notepad $profile.CurrentUserAllHosts
+        code $profile.CurrentUserAllHosts
     }
 }
 
@@ -120,89 +120,70 @@ Remove-Variable principal
 
 Function Test-CommandExists
 {
- Param ($command)
- $oldPreference = $ErrorActionPreference
- $ErrorActionPreference = 'SilentlyContinue'
- try {if(Get-Command $command){RETURN $true}}
- Catch {Write-Host "$command does not exist"; RETURN $false}
- Finally {$ErrorActionPreference=$oldPreference}
+    Param ($command)
+    $oldPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'SilentlyContinue'
+    try {if(Get-Command $command){RETURN $true}}
+    Catch {Write-Host "$command does not exist"; RETURN $false}
+    Finally {$ErrorActionPreference=$oldPreference}
 } 
-#
-# Aliases
-#
-if (Test-CommandExists nvim) {
-    $EDITOR='nvim'
-} elseif (Test-CommandExists pvim) {
-    $EDITOR='pvim'
-} elseif (Test-CommandExists vim) {
-    $EDITOR='vim'
-} elseif (Test-CommandExists vi) {
-    $EDITOR='vi'
-}
-Set-Alias -Name vim -Value $EDITOR
-
 
 function ll { Get-ChildItem -Path $pwd -File }
-function g { Set-Location $HOME\Documents\Github }
+function g { Set-Location d:\apps\ }
 function gcom
 {
 	git add .
 	git commit -m "$args"
 }
-function lazyg
-{
-	git add .
-	git commit -m "$args"
-	git push
-}
+
 Function Get-PubIP {
- (Invoke-WebRequest http://ifconfig.me/ip ).Content
+    (Invoke-WebRequest http://ifconfig.me/ip ).Content
 }
 function uptime {
-        Get-WmiObject win32_operatingsystem | Select-Object csname, @{LABEL='LastBootUpTime';
-        EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}}
+    Get-WmiObject win32_operatingsystem | Select-Object csname, @{LABEL='LastBootUpTime';
+    EXPRESSION={$_.ConverttoDateTime($_.lastbootuptime)}}
 }
 function reload-profile {
-        & $profile
+    & $profile
 }
 function find-file($name) {
-        Get-ChildItem -recurse -filter "*${name}*" -ErrorAction SilentlyContinue | ForEach-Object {
-                $place_path = $_.directory
-                Write-Output "${place_path}\${_}"
-        }
+    Get-ChildItem -recurse -filter "*${name}*" -ErrorAction SilentlyContinue | ForEach-Object {
+        $place_path = $_.directory
+        Write-Output "${place_path}\${_}"
+    }
 }
 function unzip ($file) {
-        Write-Output("Extracting", $file, "to", $pwd)
+    Write-Output("Extracting", $file, "to", $pwd)
 	$fullFile = Get-ChildItem -Path $pwd -Filter .\cove.zip | ForEach-Object{$_.FullName}
-        Expand-Archive -Path $fullFile -DestinationPath $pwd
+    Expand-Archive -Path $fullFile -DestinationPath $pwd
 }
 function grep($regex, $dir) {
-        if ( $dir ) {
-                Get-ChildItem $dir | select-string $regex
-                return
-        }
-        $input | select-string $regex
+    if ( $dir ) {
+        Get-ChildItem $dir | select-string $regex
+        return
+    }
+    $input | select-string $regex
 }
 function touch($file) {
-        "" | Out-File $file -Encoding ASCII
+    "" | Out-File $file -Encoding ASCII
 }
 function df {
-        get-volume
+    get-volume
 }
 function sed($file, $find, $replace){
-        (Get-Content $file).replace("$find", $replace) | Set-Content $file
+    (Get-Content $file).replace("$find", $replace) | Set-Content $file
 }
 function which($name) {
-        Get-Command $name | Select-Object -ExpandProperty Definition
+    Get-Command $name | Select-Object -ExpandProperty Definition
 }
 function export($name, $value) {
-        set-item -force -path "env:$name" -value $value;
+    set-item -force -path "env:$name" -value $value;
 }
 function pkill($name) {
-        Get-Process $name -ErrorAction SilentlyContinue | Stop-Process
+    Get-Process $name -ErrorAction SilentlyContinue | Stop-Process
 }
 function pgrep($name) {
-        Get-Process $name
+    Get-Process $name
 }
 
 

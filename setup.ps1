@@ -1,19 +1,19 @@
 #If the file does not exist, create it.
 if (-not(Test-Path -Path $PROFILE -PathType Leaf)) {
-     try {
-         Invoke-RestMethod https://github.com/ChrisTitusTech/powershell-profile/raw/main/Microsoft.PowerShell_profile.ps1 -o $PROFILE
-         Write-Host "The profile @ [$PROFILE] has been created."
-     }
-     catch {
-         throw $_.Exception.Message
-     }
- }
+    try {
+        Invoke-RestMethod https://github.com/NMDSilva/powershell-profile/raw/main/Microsoft.PowerShell_profile.ps1 -o $PROFILE
+        Write-Host "O perfil @ [$PROFILE] foi criado."
+    }
+    catch {
+        throw $_.Exception.Message
+    }
+}
 # If the file already exists, show the message and do nothing.
- else {
-		 Get-Item -Path $PROFILE | Move-Item -Destination oldprofile.ps1
-		 Invoke-RestMethod https://github.com/ChrisTitusTech/powershell-profile/raw/main/Microsoft.PowerShell_profile.ps1 -o $PROFILE
-		 Write-Host "The profile @ [$PROFILE] has been created and old profile removed."
- }
+else {
+    Get-Item -Path $PROFILE | Move-Item -Destination oldprofile.ps1
+    Invoke-RestMethod https://github.com/NMDSilva/powershell-profile/raw/main/Microsoft.PowerShell_profile.ps1 -o $PROFILE
+    Write-Host "O perfil @ [$PROFILE] foi criado e o antigo perfil removido."
+}
 & $profile
 
 # OMP Install
