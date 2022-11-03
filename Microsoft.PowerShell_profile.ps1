@@ -76,10 +76,10 @@ function dirs {
 function admin {
     if ($args.Count -gt 0) {   
         $argList = "& '" + $args + "'"
-        Start-Process "powershell.exe" -Verb runAs -ArgumentList $argList
+        Start-Process "$pshome\pwsh.exe" -Verb runAs -ArgumentList $argList
     }
     else {
-        Start-Process "powershell.exe" -Verb runAs
+        Start-Process "$pshome\pwsh.exe" -Verb runAs
     }
 }
 
